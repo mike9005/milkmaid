@@ -1,0 +1,11 @@
+library(ggplot2)
+library(reshape2)
+library(scales)
+codecomp <- read.table("FILENAME", sep=",", header=TRUE, colClasses=c("numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
+codecomp$vers <- codecomp$X0
+mat<- melt(codecomp, id.vars="vers")
+mat<-mat[-(1:17),]
+pal <- c("#666666", "#FF0000", "#FF3399", "#9900FF", "#FF9966", "#9933CC", "#0000FF", "#336633", "#CCFF99", "#CC6666", "#FFFF00", "#CCCCCC", "#339933", "#000033", "#CC00FF", "#33FFCC", "#FFCC99", "#CCFFFF", "#000000")
+//ggplot(mat, aes(x = vers, y = value, fill = variable)) +geom_bar(position="fill", stat = "identity") + scale_y_continuous(labels=percent_format()) + scale_fill_manual(values=pal, name = "Constituent version")
+//ggplot(mat, aes(x = vers, y = value, fill = variable), xaxt="n") +geom_bar(position="fill", stat = "identity") + scale_y_continuous("Code composition (%)",labels=percent_format(), breaks = round(seq(0, 1, by=0.1),1)) + scale_fill_manual(values=pal, name = "Constituent version")+theme(axis.text.x = element_blank(), axis.ticks=element_blank())
+ggplot(mat, aes(x = vers, y = value, fill = variable), xaxt="n") +geom_bar(position="fill", stat = "identity") + scale_y_continuous("Code composition (%)",labels=percent_format(), breaks = round(seq(0, 1, by=0.1),1)) + scale_fill_manual(values=pal, name = "Constituent\nversion", labels = c("4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"))+theme(panel.background=element_blank(), panel.grid.minor=element_blank(), panel.grid.major=element_line(color="grey90")) + scale_x_continuous(name="Base version", breaks=c(4:20))
